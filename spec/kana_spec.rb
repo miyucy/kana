@@ -1,4 +1,4 @@
-# -*- coding: undecided -*-
+# -*- coding: utf-8 -*-
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 require 'nkf'
 
@@ -16,7 +16,7 @@ describe "Kana" do
   end
 
   it "'ア'を'ｱ'に変換できること" do
-    Kana.kana('ア').should == 'ｱ'
+    Kana.kana(NKF.nkf('-m0Ww', 'ア')).should == NKF.nkf('-m0Ww', 'ｱ')
   end
 
   it "'a'を変換しないこと" do
@@ -24,7 +24,7 @@ describe "Kana" do
   end
 
   it "'０ａＡアa'を'0aAｱa'に変換できること" do
-    Kana.kana('０ａＡアa').should == '0aAｱa'
+    Kana.kana(NKF.nkf('-m0Ww', '０ａＡアa')).should == NKF.nkf('-m0Ww', '0aAｱa')
   end
 
   it "EUC-JPの'０ａＡアa'をEUC-JPの'0aAｱa'に変換できること" do
@@ -39,6 +39,9 @@ describe "Kana" do
 end
 
 describe "String" do
-  describe "to_han" do
+  describe "kana" do
+    it "'０'を'0'に変換できること" do
+      '０'.kana.should == '0'
+    end
   end
 end
