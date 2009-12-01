@@ -66,18 +66,19 @@ Kana::Converter::ALPHABET = Hash[*{0xFF21 => 0x41, # Fullwidth Latin Capital Let
                                  }.map{ |k,v| [[k].pack('U'), [v].pack('U')] }.flatten]
 
 Kana::Converter::SYMBOL = Hash[*{0xFF01 => 0x21, # Fullwidth Exclamation Mark
-                                 0xFF02 => 0x22, # Fullwidth Quotation Mark
+                                 # 0xFF02 => 0x22, # Fullwidth Quotation Mark
                                  0xFF03 => 0x23, # Fullwidth Number Sign
                                  0xFF04 => 0x24, # Fullwidth Dollar Sign
                                  0xFF05 => 0x25, # Fullwidth Percent Sign
                                  0xFF06 => 0x26, # Fullwidth Ampersand
-                                 0xFF07 => 0x27, # Fullwidth Apostrophe
+                                 # 0xFF07 => 0x27, # Fullwidth Apostrophe
                                  0xFF08 => 0x28, # Fullwidth Left Parenthesis
                                  0xFF09 => 0x29, # Fullwidth Right Parenthesis
                                  0xFF0A => 0x2A, # Fullwidth Asterisk
                                  0xFF0B => 0x2B, # Fullwidth Plus Sign
                                  0xFF0C => 0x2C, # Fullwidth Comma
                                  0xFF0D => 0x2D, # Fullwidth Hyphen-Minus
+                                 0x2212 => 0x2D,
                                  0xFF0E => 0x2E, # Fullwidth Full Stop
                                  0xFF0F => 0x2F, # Fullwidth Solidus
                                  0xFF1A => 0x3A, # Fullwidth Colon
@@ -87,20 +88,27 @@ Kana::Converter::SYMBOL = Hash[*{0xFF01 => 0x21, # Fullwidth Exclamation Mark
                                  0xFF1E => 0x3E, # Fullwidth Greater-Than Sign
                                  0xFF1F => 0x3F, # Fullwidth Question Mark
                                  0xFF20 => 0x40, # Fullwidth Commercial At
+                                 0xFF3B => 0x5B,
+                                 0xFF3D => 0x5D,
+                                 0xFF3E => 0x5E,
+                                 0xFF3F => 0x5F,
+                                 0xFF40 => 0x60,
                                  0xFF5B => 0x7B, # Fullwidth Left Curly Bracket
                                  0xFF5C => 0x7C, # Fullwidth Vertical Line
                                  0xFF5D => 0x7D, # Fullwidth Right Curly Bracket
-                                 0xFF5E => 0x7E, # Fullwidth Tilde
-                                 0xFF5F => 0x2985, # Fullwidth Left White Parenthesis
-                                 0xFF60 => 0x2986, # Fullwidth Right White Parenthesis
-                                 0xFFE0 => 0xA2, # Fullwidth Cent Sign
-                                 0xFFE1 => 0xA3, # Fullwidth Pound Sign
-                                 0xFFE2 => 0xAC, # Fullwidth Not Sign
-                                 0xFFE3 => 0xAF, # Fullwidth Macron
-                                 0xFFE4 => 0xA6, # Fullwidth Broken Bar
-                                 0xFFE5 => 0xA5, # Fullwidth Yen Sign
-                                 0xFFE6 => 0x20A9, # Fullwidth Won Sign
+                                 # 0xFF5E => 0x7E, # Fullwidth Tilde
+                                 # 0xFF5F => 0x2985, # Fullwidth Left White Parenthesis
+                                 # 0xFF60 => 0x2986, # Fullwidth Right White Parenthesis
+                                 # 0xFFE0 => 0xA2, # Fullwidth Cent Sign
+                                 # 0xFFE1 => 0xA3, # Fullwidth Pound Sign
+                                 # 0xFFE2 => 0xAC, # Fullwidth Not Sign
+                                 # 0xFFE3 => 0xAF, # Fullwidth Macron
+                                 # 0xFFE4 => 0xA6, # Fullwidth Broken Bar
+                                 # 0xFFE5 => 0xA5, # Fullwidth Yen Sign
+                                 # 0xFFE6 => 0x20A9, # Fullwidth Won Sign
                                }.map{ |k,v| [[k].pack('U'), [v].pack('U')] }.flatten]
+
+Kana::Converter::SYMBOL_INVERT = Hash[*{0x2D => 0xFF0D}.map{ |k,v| [[k].pack('U'), [v].pack('U')] }.flatten]
 
 Kana::Converter::SPACE = Hash[*{0x3000 => 0x20, # IDEOGRAPHIC SPACE
                               }.map{ |k,v| [[k].pack('U'), [v].pack('U')] }.flatten]

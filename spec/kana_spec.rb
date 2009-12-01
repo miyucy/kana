@@ -41,7 +41,7 @@ describe "Kana" do
   end
 
   it "オプション'a'によって全角英数字を半角英数字に変換できること" do
-    Kana.kana('Ａｂｃ ｘｙＺ　０12３','a',:utf8).should == 'Abc xyZ 0123'
+    Kana.kana('Ａｂｃ　ｘｙＺ　０12３','a',:utf8).should == 'Abc　xyZ　0123'
   end
 
   it "オプション'k'によって全角カタカナを半角カタカナに変換できること" do
@@ -50,6 +50,126 @@ describe "Kana" do
 
   it "オプション'h'によって全角ひらがなを半角カタカナに変換できること" do
     Kana.kana('あぁん','h',:utf8).should == 'ｱｧﾝ'
+  end
+
+  it "mb_convert_kana(a)と同じ変換をすること" do
+    $KCODE = 'u'
+    raw = File.read('spec/data/raw.txt')
+    Kana.kana(raw, 'a').split(//).zip(File.read('spec/data/a.txt').split(//)).each do |got,except|
+      got.should == except
+    end
+  end
+
+  it "mb_convert_kana(A)と同じ変換をすること" do
+    $KCODE = 'u'
+    raw = File.read('spec/data/raw.txt')
+    Kana.kana(raw, 'A').split(//).zip(File.read('spec/data/l-a.txt').split(//)).each do |got,except|
+      got.should == except
+    end
+  end
+
+  it "mb_convert_kana(c)と同じ変換をすること" do
+    $KCODE = 'u'
+    raw = File.read('spec/data/raw.txt')
+    Kana.kana(raw, 'c').split(//).zip(File.read('spec/data/c.txt').split(//)).each do |got,except|
+      got.should == except
+    end
+  end
+
+  it "mb_convert_kana(C)と同じ変換をすること" do
+    $KCODE = 'u'
+    raw = File.read('spec/data/raw.txt')
+    Kana.kana(raw, 'C').split(//).zip(File.read('spec/data/l-c.txt').split(//)).each do |got,except|
+      got.should == except
+    end
+  end
+
+  it "mb_convert_kana(h)と同じ変換をすること" do
+    $KCODE = 'u'
+    raw = File.read('spec/data/raw.txt')
+    Kana.kana(raw, 'h').split(//).zip(File.read('spec/data/h.txt').split(//)).each do |got,except|
+      got.should == except
+    end
+  end
+
+  it "mb_convert_kana(H)と同じ変換をすること" do
+    $KCODE = 'u'
+    raw = File.read('spec/data/raw.txt')
+    Kana.kana(raw, 'H').split(//).zip(File.read('spec/data/l-h.txt').split(//)).each do |got,except|
+      got.should == except
+    end
+  end
+
+  it "mb_convert_kana(HV)と同じ変換をすること" do
+    $KCODE = 'u'
+    raw = File.read('spec/data/raw.txt')
+    Kana.kana(raw, 'HV').split(//).zip(File.read('spec/data/l-hv.txt').split(//)).each do |got,except|
+      got.should == except
+    end
+  end
+
+  it "mb_convert_kana(k)と同じ変換をすること" do
+    $KCODE = 'u'
+    raw = File.read('spec/data/raw.txt')
+    Kana.kana(raw, 'k').split(//).zip(File.read('spec/data/k.txt').split(//)).each do |got,except|
+      got.should == except
+    end
+  end
+
+  it "mb_convert_kana(K)と同じ変換をすること" do
+    $KCODE = 'u'
+    raw = File.read('spec/data/raw.txt')
+    Kana.kana(raw, 'K').split(//).zip(File.read('spec/data/l-k.txt').split(//)).each do |got,except|
+      got.should == except
+    end
+  end
+
+  it "mb_convert_kana(KV)と同じ変換をすること" do
+    $KCODE = 'u'
+    raw = File.read('spec/data/raw.txt')
+    Kana.kana(raw, 'KV').split(//).zip(File.read('spec/data/l-kv.txt').split(//)).each do |got,except|
+      got.should == except
+    end
+  end
+
+  it "mb_convert_kana(ask)と同じ変換をすること" do
+    $KCODE = 'u'
+    raw = File.read('spec/data/raw.txt')
+    Kana.kana(raw, 'ask').split(//).zip(File.read('spec/data/ask.txt').split(//)).each do |got,except|
+      got.should == except
+    end
+  end
+
+  it "mb_convert_kana(ASK)と同じ変換をすること" do
+    $KCODE = 'u'
+    raw = File.read('spec/data/raw.txt')
+    Kana.kana(raw, 'ASK').split(//).zip(File.read('spec/data/l-ask.txt').split(//)).each do |got,except|
+      got.should == except
+    end
+  end
+
+  it "mb_convert_kana(ASKV)と同じ変換をすること" do
+    $KCODE = 'u'
+    raw = File.read('spec/data/raw.txt')
+    Kana.kana(raw, 'ASKV').split(//).zip(File.read('spec/data/l-askv.txt').split(//)).each do |got,except|
+      got.should == except
+    end
+  end
+
+  it "mb_convert_kana(rns)と同じ変換をすること" do
+    $KCODE = 'u'
+    raw = File.read('spec/data/raw.txt')
+    Kana.kana(raw, 'rns').split(//).zip(File.read('spec/data/rns.txt').split(//)).each do |got,except|
+      got.should == except
+    end
+  end
+
+  it "mb_convert_kana(RNS)と同じ変換をすること" do
+    $KCODE = 'u'
+    raw = File.read('spec/data/raw.txt')
+    Kana.kana(raw, 'RNS').split(//).zip(File.read('spec/data/l-rns.txt').split(//)).each do |got,except|
+      got.should == except
+    end
   end
 end
 

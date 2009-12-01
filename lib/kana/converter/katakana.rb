@@ -53,6 +53,7 @@ Kana::Converter::KATAKANA = Hash[*{# 清音
                                    0x30EB => 0xFF99, # KATAKANA LETTER RU
                                    0x30EC => 0xFF9A, # KATAKANA LETTER RE
                                    0x30ED => 0xFF9B, # KATAKANA LETTER RO
+                                   0x30EF => 0xFF9C, # KATAKANA LETTER WA
                                    0x30F2 => 0xFF66, # KATAKANA LETTER WO
                                    0x30F3 => 0xFF9D, # KATAKANA LETTER N
                                    # 記号
@@ -105,3 +106,10 @@ Kana::Converter::KATAKANA_INVERT = Hash[*{0xFF9E => 0x309B, # KATAKANA-HIRAGANA 
                                           0xFF9F => 0x309C, # KATAKANA-HIRAGANA SEMI-VOICED SOUND MARK
                                         }.map{ |k,v| [[k].pack('U'), [v].pack('U')] }.flatten]
 
+Kana::Converter::KATAKANA_ZENHAN = Hash[*{
+                                          0x309B => 0xFF9E,
+                                          0x309C => 0xFF9F,
+                                          0x30EE => 0xFF9C,
+                                          0x30F0 => 0xFF72,
+                                          0x30F1 => 0xFF74,
+                                        }.map{ |k,v| [[k].pack('U'), [v].pack('U')] }.flatten]

@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 module Kana
   module Converter
-    %w(NUMERIC ALPHABET SYMBOL SPACE).each do |const|
+    %w(NUMERIC ALPHABET SYMBOL SYMBOL_INVERT SPACE).each do |const|
       autoload const, 'kana/converter/numeric_alphabet'
     end
-    %w(KATAKANA KATAKANA_DAKUON KATAKANA_INVERT).each do |const|
+    %w(KATAKANA KATAKANA_DAKUON KATAKANA_INVERT KATAKANA_ZENHAN).each do |const|
       autoload const, 'kana/converter/katakana'
     end
-    %w(HIRAGANA HIRAGANA_DAKUON).each do |const|
+    %w(HIRAGANA HIRAGANA_DAKUON HIRAGANA_INVERT).each do |const|
       autoload const, 'kana/converter/hiragana'
     end
     autoload :KATAHIRA, 'kana/converter/katahira'
@@ -38,12 +38,14 @@ module Kana
         when 'k'
           # k 	「全角カタカナ」を「半角カタカナ」に変換します。
           table.update KATAKANA
+          table.update KATAKANA_ZENHAN
           table.update KATAKANA_DAKUON
         when 'K'
           # K 	「半角カタカナ」を「全角カタカナ」に変換します。
           if vsm
             table.update KATAKANA.invert
             table.update KATAKANA_DAKUON.invert
+            table.update KATAKANA_INVERT
           else
             table.update KATAKANA.invert
             table.update KATAKANA_INVERT
@@ -54,13 +56,9 @@ module Kana
           table.update HIRAGANA_DAKUON
         when 'H'
           # H 	「半角カタカナ」を「全角ひらがな」に変換します。
-          if vsm
-            table.update HIRAGANA.invert
-            table.update HIRAGANA_DAKUON.invert
-          else
-            table.update HIRAGANA.invert
-            table.update KATAKANA_INVERT.invert
-          end
+          table.update HIRAGANA.invert
+          table.update HIRAGANA_INVERT
+          table.update HIRAGANA_DAKUON.invert if vsm
         when 'c'
           # c 	「全角カタカナ」を「全角ひらがな」に変換します。
           table.update KATAHIRA
@@ -95,9 +93,12 @@ module Kana
         when 'S'
           table.update SPACE.invert
         when 'a'
-          table.update convert_tables('nrs').update SYMBOL
+          table.update convert_tables('nr')
+          table.update SYMBOL
         when 'A'
-          table.update convert_tables('NRS').update SYMBOL.invert
+          table.update convert_tables('NR')
+          table.update SYMBOL.invert
+          table.update SYMBOL_INVERT
 
         when 'k'
           raise ArgumentError if (kh_option[:input] & ZENKATA_FLAG) != 0

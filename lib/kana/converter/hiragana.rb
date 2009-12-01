@@ -1,6 +1,16 @@
 # -*- coding: utf-8 -*-
 # 全角ひらがな => 半角カタカナ
-Kana::Converter::HIRAGANA = Hash[*{# 清音
+Kana::Converter::HIRAGANA = Hash[*{# 記号
+                                   0x3001 => 0xFF64,
+                                   0x3002 => 0xFF61,
+                                   0x300C => 0xFF62,
+                                   0x300D => 0xFF63,
+                                   0x309B => 0xFF9E,
+                                   0x309C => 0xFF9F,
+                                   0x30FB => 0xFF65,
+                                   0x30FC => 0xFF70,
+                                   0x309B => 0xFF9E,
+                                   # 清音
                                    0x3041 => 0xFF67, # HIRAGANA LETTER SMALL A
                                    0x3042 => 0xFF71, # HIRAGANA LETTER A
                                    0x3043 => 0xFF68, # HIRAGANA LETTER SMALL I
@@ -53,6 +63,10 @@ Kana::Converter::HIRAGANA = Hash[*{# 清音
                                    0x308B => 0xFF99, # HIRAGANA LETTER RU
                                    0x308C => 0xFF9A, # HIRAGANA LETTER RE
                                    0x308D => 0xFF9B, # HIRAGANA LETTER RO
+                                   0x308E => 0xFF9C,
+                                   0x308F => 0xFF9C,
+                                   0x3090 => 0xFF72,
+                                   0x3091 => 0xFF74,
                                    0x3092 => 0xFF66, # HIRAGANA LETTER WO
                                    0x3093 => 0xFF9D, # HIRAGANA LETTER N
                                  }.map{ |k,v| [[k].pack('U'), [v].pack('U')] }.flatten]
@@ -86,3 +100,7 @@ Kana::Converter::HIRAGANA_DAKUON = Hash[*{# 濁音
                                           0x307A => [0xFF8D,0xFF9F], # HIRAGANA LETTER PE
                                           0x307D => [0xFF8E,0xFF9F], # HIRAGANA LETTER PO
                                         }.map{ |k,v| [[k].pack('U'), v.map{ |e| [e].pack('U') }.join ] }.flatten]
+
+Kana::Converter::HIRAGANA_INVERT = Hash[*{
+                                          0xFF72 => 0x3044,
+                                        }.map{ |k,v| [[k].pack('U'), [v].pack('U')] }.flatten]
