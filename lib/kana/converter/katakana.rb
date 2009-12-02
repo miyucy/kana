@@ -57,14 +57,12 @@ Kana::Converter::KATAKANA = Hash[*{# 清音
                                    0x30F2 => 0xFF66, # KATAKANA LETTER WO
                                    0x30F3 => 0xFF9D, # KATAKANA LETTER N
                                    # 記号
-                                   0x30FB => 0xFF65, # KATAKANA MIDDLE DOT
-                                   0x30FC => 0xFF70, # KATAKANA-HIRAGANA PROLONGED SOUND MARK
+                                   0x3001 => 0xFF64, # Ideographic Comma
                                    0x3002 => 0xFF61, # Ideographic Full Stop
                                    0x300C => 0xFF62, # Left Corner Bracket
                                    0x300D => 0xFF63, # Right Corner Bracket
-                                   0x3001 => 0xFF64, # Ideographic Comma
-                                   0x30FB => 0xFF65, # Katakana Middle Dot
-                                   0x30FC => 0xFF70, # Katakana-Hiragana Prolonged Sound Mark
+                                   0x30FC => 0xFF70, # KATAKANA-HIRAGANA PROLONGED SOUND MARK
+                                   0x30FB => 0xFF65, # KATAKANA MIDDLE DOT
                                    0x3099 => 0xFF9E, # Combining Katakana Voiced Sound Mark
                                    0x309A => 0xFF9F, # Combining Katakana Semi-Voiced Sound Mark
                                  }.map{ |k,v| [[k].pack('U'), [v].pack('U')] }.flatten]
