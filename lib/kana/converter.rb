@@ -1,16 +1,9 @@
 # -*- coding: utf-8 -*-
 module Kana
   module Converter
-    %w(NUMERIC ALPHABET SYMBOL SYMBOL_INVERT SPACE).each do |const|
-      autoload const, 'kana/converter/numeric_alphabet'
-    end
-    %w(KATAKANA KATAKANA_DAKUON KATAKANA_INVERT KATAKANA_ZENHAN).each do |const|
-      autoload const, 'kana/converter/katakana'
-    end
-    %w(HIRAGANA HIRAGANA_DAKUON HIRAGANA_INVERT).each do |const|
-      autoload const, 'kana/converter/hiragana'
-    end
-    autoload :KATAHIRA, 'kana/converter/katahira'
+    require 'kana/converter/numeric_alphabet'
+    require 'kana/converter/katahira'
+    require 'kana/converter/zenkaku'
 
     def convert str, opt='KV'
       opt ||= 'KV'
@@ -37,28 +30,26 @@ module Kana
         case c
         when 'k'
           # k 	「全角カタカナ」を「半角カタカナ」に変換します。
-          table.update KATAKANA
-          table.update KATAKANA_ZENHAN
-          table.update KATAKANA_DAKUON
+          table.update ZENKAKU_KATAKANA_HANKAKU
+          table.update ZENKAKU_DAKUTEN_KATAKANA_HANKAKU
+          table.update ZENKAKU_SYMBOL
         when 'K'
           # K 	「半角カタカナ」を「全角カタカナ」に変換します。
-          if vsm
-            table.update KATAKANA.invert
-            table.update KATAKANA_DAKUON.invert
-            table.update KATAKANA_INVERT
-          else
-            table.update KATAKANA.invert
-            table.update KATAKANA_INVERT
-          end
+          table.update ZENKAKU_KATAKANA_HANKAKU.invert
+          table.update ZENKAKU_DAKUTEN_KATAKANA_HANKAKU.invert if vsm
+          table.update ZENKAKU_SYMBOL.invert
+          table.update ZENKAKU_KATAKANA_SYMBOL.invert
         when 'h'
           # h 	「全角ひらがな」を「半角カタカナ」に変換します。
-          table.update HIRAGANA
-          table.update HIRAGANA_DAKUON
+          table.update ZENKAKU_HIRAGANA_HANKAKU
+          table.update ZENKAKU_DAKUTEN_HIRAGANA_HANKAKU
+          table.update ZENKAKU_SYMBOL
         when 'H'
           # H 	「半角カタカナ」を「全角ひらがな」に変換します。
-          table.update HIRAGANA.invert
-          table.update HIRAGANA_INVERT
-          table.update HIRAGANA_DAKUON.invert if vsm
+          table.update ZENKAKU_HIRAGANA_HANKAKU.invert
+          table.update ZENKAKU_DAKUTEN_HIRAGANA_HANKAKU.invert if vsm
+          table.update ZENKAKU_SYMBOL.invert
+          table.update ZENKAKU_HIRAGANA_SYMBOL.invert
         when 'c'
           # c 	「全角カタカナ」を「全角ひらがな」に変換します。
           table.update KATAHIRA
