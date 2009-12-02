@@ -1,18 +1,5 @@
 <?php
-$t = trim(file_get_contents('data.txt'));
-$t = preg_split('//u', $t);
-sort($t);//shuffle($t);shuffle($t);shuffle($t);shuffle($t);shuffle($t);
-
-$s = '';
-for($i=0; count($t)!=0; $i++)
-{
-    $s .= array_shift($t);
-    if($i > 0 && ($i % 20) == 0){
-        $s .= "\n";
-    }
-}
-$s .= "\n";
-
+$s = file_get_contents('data.txt');
 file_put_contents('data/raw.txt',    $s);
 file_put_contents('data/rns.txt',    mb_convert_kana($s, 'rns', 'UTF-8'));
 file_put_contents('data/l-rns.txt',  mb_convert_kana($s, 'RNS', 'UTF-8'));
