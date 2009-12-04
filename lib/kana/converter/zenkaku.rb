@@ -59,7 +59,7 @@ Kana::Converter::ZENKAKU_KATAKANA_HANKAKU = Hash[*{
                                                    0x30F1 => 0xFF74,
                                                    0x30F2 => 0xFF66,
                                                    0x30F3 => 0xFF9D,
-                                                 }.map{ |k,v| [[k].pack('U'), [v].pack('U')] }.flatten]
+                                                 }.map{ |k,v| [[k].pack('U'), [v].pack('U')] }.flatten].freeze
 
 # 全角カタカナ -> 半角カタカナ(濁音・半濁音)
 Kana::Converter::ZENKAKU_DAKUTEN_KATAKANA_HANKAKU = Hash[*{
@@ -89,7 +89,7 @@ Kana::Converter::ZENKAKU_DAKUTEN_KATAKANA_HANKAKU = Hash[*{
                                                            0x30DC => [0xFF8E,0xFF9E],
                                                            0x30DD => [0xFF8E,0xFF9F],
                                                            0x30F4 => [0xFF73,0xFF9E],
-                                                         }.map{ |k,v| [[k].pack('U'), v.map{ |e| [e].pack('U') }.join ] }.flatten]
+                                                         }.map{ |k,v| [[k].pack('U'), v.map{ |e| [e].pack('U') }.join ] }.flatten].freeze
 
 # 全角ひらがな -> 半角カタカナ(清音のみ)
 Kana::Converter::ZENKAKU_HIRAGANA_HANKAKU = Hash[*{
@@ -151,7 +151,7 @@ Kana::Converter::ZENKAKU_HIRAGANA_HANKAKU = Hash[*{
                                                    0x3091 => 0xFF74,
                                                    0x3092 => 0xFF66,
                                                    0x3093 => 0xFF9D,
-                                                 }.map{ |k,v| [[k].pack('U'), [v].pack('U')] }.flatten]
+                                                 }.map{ |k,v| [[k].pack('U'), [v].pack('U')] }.flatten].freeze
 
 # 全角ひらがな -> 半角カタカナ(濁音・半濁音)
 Kana::Converter::ZENKAKU_DAKUTEN_HIRAGANA_HANKAKU = Hash[*{
@@ -180,7 +180,7 @@ Kana::Converter::ZENKAKU_DAKUTEN_HIRAGANA_HANKAKU = Hash[*{
                                                            0x307A => [0xFF8D,0xFF9F],
                                                            0x307C => [0xFF8E,0xFF9E],
                                                            0x307D => [0xFF8E,0xFF9F],
-                                                         }.map{ |k,v| [[k].pack('U'), v.map{ |e| [e].pack('U') }.join ] }.flatten]
+                                                         }.map{ |k,v| [[k].pack('U'), v.map{ |e| [e].pack('U') }.join ] }.flatten].freeze
 # 全角記号 -> 半角記号
 Kana::Converter::ZENKAKU_SYMBOL = Hash[*{
                                          0x3001 => 0xFF64,
@@ -191,7 +191,7 @@ Kana::Converter::ZENKAKU_SYMBOL = Hash[*{
                                          0x309C => 0xFF9F,
                                          0x30FC => 0xFF70,
                                          0x30FB => 0xFF65,
-                                       }.map{ |k,v| [[k].pack('U'), [v].pack('U')] }.flatten]
+                                       }.map{ |k,v| [[k].pack('U'), [v].pack('U')] }.flatten].freeze
 
 # 全角記号 -> 半角記号
 Kana::Converter::ZENKAKU_KATAKANA_SYMBOL = Hash[*{
@@ -250,7 +250,7 @@ Kana::Converter::ZENKAKU_KATAKANA_SYMBOL = Hash[*{
                                                   0x30ED => 0xFF9B,
                                                   0x30EF => 0xFF9C,
                                                   0x30F3 => 0xFF9D,
-                                                }.map{ |k,v| [[k].pack('U'), [v].pack('U')] }.flatten]
+                                                }.map{ |k,v| [[k].pack('U'), [v].pack('U')] }.flatten].freeze
 
 # 全角記号 -> 半角記号
 Kana::Converter::ZENKAKU_HIRAGANA_SYMBOL = Hash[*{
@@ -309,4 +309,4 @@ Kana::Converter::ZENKAKU_HIRAGANA_SYMBOL = Hash[*{
                                                   0x308D => 0xFF9B,
                                                   0x308F => 0xFF9C,
                                                   0x3093 => 0xFF9D,
-                                                }.map{ |k,v| [[k].pack('U'), [v].pack('U')] }.flatten]
+                                                }.map{ |k,v| [[k].pack('U'), [v].pack('U')] }.flatten].freeze

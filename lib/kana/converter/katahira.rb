@@ -83,4 +83,4 @@ Kana::Converter::KATAHIRA = Hash[*{0x30A1 => 0x3041, # KATAKANA LETTER SMALL A
                                    0x30F1 => 0x3091, # KATAKANA LETTER WE
                                    0x30F2 => 0x3092, # KATAKANA LETTER WO
                                    0x30F3 => 0x3093, # KATAKANA LETTER N
-                                 }.map{ |k,v| [[k].pack('U'), [v].pack('U')] }.flatten]
+                                 }.map{ |k,v| [[k].pack('U'), [v].pack('U')] }.flatten].freeze

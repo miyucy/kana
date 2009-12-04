@@ -9,7 +9,7 @@ Kana::Converter::NUMERIC = Hash[*{0xFF10 => 0x30, # Fullwidth Digit Zero
                                   0xFF17 => 0x37, # Fullwidth Digit Seven
                                   0xFF18 => 0x38, # Fullwidth Digit Eight
                                   0xFF19 => 0x39, # Fullwidth Digit Nine
-                                }.map{ |k,v| [[k].pack('U'), [v].pack('U')] }.flatten]
+                                }.map{ |k,v| [[k].pack('U'), [v].pack('U')] }.flatten].freeze
 
 Kana::Converter::ALPHABET = Hash[*{0xFF21 => 0x41, # Fullwidth Latin Capital Letter A
                                    0xFF22 => 0x42, # Fullwidth Latin Capital Letter B
@@ -63,7 +63,7 @@ Kana::Converter::ALPHABET = Hash[*{0xFF21 => 0x41, # Fullwidth Latin Capital Let
                                    0xFF58 => 0x78, # Fullwidth Latin Small Letter X
                                    0xFF59 => 0x79, # Fullwidth Latin Small Letter Y
                                    0xFF5A => 0x7A, # Fullwidth Latin Small Letter Z
-                                 }.map{ |k,v| [[k].pack('U'), [v].pack('U')] }.flatten]
+                                 }.map{ |k,v| [[k].pack('U'), [v].pack('U')] }.flatten].freeze
 
 Kana::Converter::SYMBOL = Hash[*{0xFF01 => 0x21, # Fullwidth Exclamation Mark
                                  0xFF03 => 0x23, # Fullwidth Number Sign
@@ -156,10 +156,10 @@ Kana::Converter::SYMBOL = Hash[*{0xFF01 => 0x21, # Fullwidth Exclamation Mark
                                  0xFF5B => 0x7B, # Fullwidth Left Curly Bracket
                                  0xFF5C => 0x7C, # Fullwidth Vertical Line
                                  0xFF5D => 0x7D, # Fullwidth Right Curly Bracket
-                               }.map{ |k,v| [[k].pack('U'), [v].pack('U')] }.flatten]
+                               }.map{ |k,v| [[k].pack('U'), [v].pack('U')] }.flatten].freeze
 
 Kana::Converter::SYMBOL_INVERT = Hash[*{0x2D => 0xFF0D
-                                      }.map{ |k,v| [[k].pack('U'), [v].pack('U')] }.flatten]
+                                      }.map{ |k,v| [[k].pack('U'), [v].pack('U')] }.flatten].freeze
 
 Kana::Converter::SPACE = Hash[*{0x3000 => 0x20, # IDEOGRAPHIC SPACE
-                              }.map{ |k,v| [[k].pack('U'), [v].pack('U')] }.flatten]
+                              }.map{ |k,v| [[k].pack('U'), [v].pack('U')] }.flatten].freeze

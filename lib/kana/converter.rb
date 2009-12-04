@@ -7,12 +7,97 @@ module Kana
 
     def convert str, opt='KV'
       opt ||= 'KV'
-      table = convert_tables opt
-      str.gsub(build_regexp(table)) do |match|
+      regexp, table = build_convert_table opt
+      str.gsub(regexp) do |match|
         table[match]
       end
     end
     module_function :convert
+
+    @@cached_data = {}
+
+    def self.build_convert_table opt
+      opt = parse_option opt
+      return @@cached_data[opt] if @@cached_data[opt]
+      table = convert_tables opt
+      @@cached_data[opt] = [build_regexp(table), table].freeze
+    end
+
+    VALID_OPTION = ['n','N','r','R','s','S','a','A','k','K','h','H','c','C','V',].freeze
+
+    def self.parse_option opt
+      opt.split(//).uniq.sort.each do |c|
+        raise ArgumentError unless VALID_OPTION.include?(c)
+      end
+    end
+
+    def self.convert_tables opt
+      table = {}
+      opt.each do |c|
+        case c
+        when 'n'
+          # 全角数字 -> 半角数字
+          table.update NUMERIC
+        when 'N'
+          # 半角数字 -> 全角数字
+          table.update NUMERIC.invert
+        when 'r'
+          # 全角英字 -> 半角英字
+          table.update ALPHABET
+        when 'R'
+          # 半角英字 -> 全角英字
+          table.update ALPHABET.invert
+        when 's'
+          # 全角スペース -> 半角スペース
+          table.update SPACE
+        when 'S'
+          # 半角スペース -> 全角スペース
+          table.update SPACE.invert
+        when 'a'
+          # 全角英数字 -> 半角英数字
+          table.update convert_tables(['n','r',])
+          table.update SYMBOL
+        when 'A'
+          # 半角英数字 -> 全角英数字
+          table.update convert_tables(['N','R',])
+          table.update SYMBOL.invert
+          table.update SYMBOL_INVERT
+        when 'k'
+          # 全角カタカナ -> 半角カタカナ
+          table.update ZENKAKU_KATAKANA_HANKAKU
+          table.update ZENKAKU_DAKUTEN_KATAKANA_HANKAKU
+          table.update ZENKAKU_SYMBOL
+        when 'K'
+          # 全角カタカナ -> 半角カタカナ
+          table.update ZENKAKU_KATAKANA_HANKAKU.invert
+          table.update ZENKAKU_DAKUTEN_KATAKANA_HANKAKU.invert if opt.find{ |o| o == 'V' }
+          table.update ZENKAKU_SYMBOL.invert
+          table.update ZENKAKU_KATAKANA_SYMBOL.invert
+        when 'h'
+          # 全角ひらがな -> 半角カタカナ
+          table.update ZENKAKU_HIRAGANA_HANKAKU
+          table.update ZENKAKU_DAKUTEN_HIRAGANA_HANKAKU
+          table.update ZENKAKU_SYMBOL
+        when 'H'
+          # 半角カタカナ -> 全角ひらがな
+          table.update ZENKAKU_HIRAGANA_HANKAKU.invert
+          table.update ZENKAKU_DAKUTEN_HIRAGANA_HANKAKU.invert if opt.find{ |o| o == 'V' }
+          table.update ZENKAKU_SYMBOL.invert
+          table.update ZENKAKU_HIRAGANA_SYMBOL.invert
+        when 'c'
+          # 全角カタカナ -> 全角ひらがな
+          table.update KATAHIRA
+        when 'C'
+          # 全角ひらがな -> 全角カタカナ
+          table.update KATAHIRA.invert
+        when 'V'
+          # do nothing
+        else
+          raise ArgumentError
+        end
+      end
+      table.freeze
+    end
 
     def self.build_regexp table
       Regexp.union(*table.keys.sort_by{ |k| -table[k].size }.map{ |v|
@@ -21,108 +106,7 @@ module Kana
                      else
                        Regexp.new(Regexp.escape(v,'u'),nil,'u')
                      end
-                   })
-    end
-
-    def self.convert_table_katakana_hiragana opt, vsm
-      table = {}
-      opt.split(//).each do |c|
-        case c
-        when 'k'
-          # k 	「全角カタカナ」を「半角カタカナ」に変換します。
-          table.update ZENKAKU_KATAKANA_HANKAKU
-          table.update ZENKAKU_DAKUTEN_KATAKANA_HANKAKU
-          table.update ZENKAKU_SYMBOL
-        when 'K'
-          # K 	「半角カタカナ」を「全角カタカナ」に変換します。
-          table.update ZENKAKU_KATAKANA_HANKAKU.invert
-          table.update ZENKAKU_DAKUTEN_KATAKANA_HANKAKU.invert if vsm
-          table.update ZENKAKU_SYMBOL.invert
-          table.update ZENKAKU_KATAKANA_SYMBOL.invert
-        when 'h'
-          # h 	「全角ひらがな」を「半角カタカナ」に変換します。
-          table.update ZENKAKU_HIRAGANA_HANKAKU
-          table.update ZENKAKU_DAKUTEN_HIRAGANA_HANKAKU
-          table.update ZENKAKU_SYMBOL
-        when 'H'
-          # H 	「半角カタカナ」を「全角ひらがな」に変換します。
-          table.update ZENKAKU_HIRAGANA_HANKAKU.invert
-          table.update ZENKAKU_DAKUTEN_HIRAGANA_HANKAKU.invert if vsm
-          table.update ZENKAKU_SYMBOL.invert
-          table.update ZENKAKU_HIRAGANA_SYMBOL.invert
-        when 'c'
-          # c 	「全角カタカナ」を「全角ひらがな」に変換します。
-          table.update KATAHIRA
-        when 'C'
-          # C 	「全角ひらがな」を「全角カタカナ」に変換します。
-          table.update KATAHIRA.invert
-        end
-      end
-      table
-    end
-
-    ZENKATA_FLAG = 0x01 # Zenkaku Katakana
-    ZENHIRA_FLAG = 0x02 # Zenkaku Hiragana
-    HANKATA_FLAG = 0x04 # Hankaku Katakana
-    VSM_FLAG     = 0x08 # Voiced Sound Mark
-
-    def self.convert_tables opt
-      table = {}
-      kh_option = {:flag => '', :vsm => false, :input => 0}
-      opt.split(//).each do |c|
-        case c
-        when 'n'
-          table.update NUMERIC
-        when 'N'
-          table.update NUMERIC.invert
-        when 'r'
-          table.update ALPHABET
-        when 'R'
-          table.update ALPHABET.invert
-        when 's'
-          table.update SPACE
-        when 'S'
-          table.update SPACE.invert
-        when 'a'
-          table.update convert_tables('nr')
-          table.update SYMBOL
-        when 'A'
-          table.update convert_tables('NR')
-          table.update SYMBOL.invert
-          table.update SYMBOL_INVERT
-
-        when 'k'
-          raise ArgumentError if (kh_option[:input] & ZENKATA_FLAG) != 0
-          kh_option[:input] |= ZENKATA_FLAG
-          kh_option[:flag] += 'k'
-        when 'c'
-          raise ArgumentError if (kh_option[:input] & ZENKATA_FLAG) != 0
-          kh_option[:input] |= ZENKATA_FLAG
-          kh_option[:flag] += 'c'
-        when 'h'
-          raise ArgumentError if (kh_option[:input] & ZENHIRA_FLAG) != 0
-          kh_option[:input] |= ZENHIRA_FLAG
-          kh_option[:flag] += 'h'
-        when 'C'
-          raise ArgumentError if (kh_option[:input] & ZENHIRA_FLAG) != 0
-          kh_option[:input] |= ZENHIRA_FLAG
-          kh_option[:flag] += 'C'
-        when 'K'
-          raise ArgumentError if (kh_option[:input] & HANKATA_FLAG) != 0
-          kh_option[:input] |= HANKATA_FLAG
-          kh_option[:flag] += 'K'
-        when 'H'
-          raise ArgumentError if (kh_option[:input] & HANKATA_FLAG) != 0
-          kh_option[:input] |= HANKATA_FLAG
-          kh_option[:flag] += 'H'
-        when 'V'
-          raise ArgumentError if (kh_option[:input] & HANKATA_FLAG) == 0
-          kh_option[:vsm] = true
-        else
-          raise ArgumentError
-        end
-      end
-      table.update convert_table_katakana_hiragana kh_option[:flag], kh_option[:vsm]
+                   }).freeze
     end
   end
 end
